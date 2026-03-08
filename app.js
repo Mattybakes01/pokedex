@@ -25,7 +25,7 @@ const getPokeApi = async (id) => {
 
 function appendPokeName(name)
 {
-    const capitalFirstChar = name.charAt(0).toUpperCase() + name.slice(1);
+    const capitalFirstChar = capitaliseFirstChar(name);
     pokemonName.append(capitalFirstChar);
 }
 
@@ -41,11 +41,16 @@ function appendPokemonTypes(typesObject)
         console.log(types.type.name);
 
         const typeName = types.type.name;
-        const capitalFirstChar = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+        const capitalFirstChar = capitaliseFirstChar(typeName);
         const newLi = document.createElement("li");
         newLi.textContent = capitalFirstChar;
         pokemonTypes.append(newLi);
     }
+}
+
+function capitaliseFirstChar(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 searchForm.addEventListener('submit', function(e) {
