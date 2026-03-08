@@ -1,7 +1,7 @@
 const searchForm = document.getElementById('searchForm');
 const textInput = document.getElementById('textInput');
 const pokemonName = document.getElementById('pokemonName');
-const image = document.getElementById("image")
+const image = document.getElementById("image");
 const pokemonTypes = document.getElementById("pokemonTypes");
 
 const getPokeApi = async (id) => {
@@ -15,7 +15,7 @@ const getPokeApi = async (id) => {
         //Gets artwork and appends to body
         appendPokemonSprite(res.data.sprites.other['official-artwork'].front_default);
 
-        //Get Pokemon Type
+        //Gets Pokemon Type
         appendPokemonTypes(res.data.types);
 
     } catch (e) {
