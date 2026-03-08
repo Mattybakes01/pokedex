@@ -2,34 +2,58 @@ const searchForm = document.getElementById('searchForm');
 const textInput = document.getElementById('textInput');
 const pokemonName = document.getElementById('pokemonName');
 const image = document.getElementById("image")
+const pokemonTypes = document.getElementById("pokemonTypes");
 
 const getPokeApi = async (id) => {
     try {
         const config = { headers: {Accept:'application/json'} };
-        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
-        console.log(res.data.name);
+        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`, config);
         
         //Gets name and appends to H2
-        const text = res.data.name
-        pokemonName.append(text);
+        appendPokeName(res.data.name);
         
         //Gets artwork and appends to body
-        const artwork = res.data.sprites.other['official-artwork'].front_default;
-        image.src = artwork;
+        appendPokemonSprite(res.data.sprites.other['official-artwork'].front_default);
+
+        //Get Pokemon Type
+        appendPokemonTypes(res.data.types);
+
     } catch (e) {
         console.log("Error", e);
     }
 };
 
+function appendPokeName(name)
+{
+    const capitalFirstChar = name.charAt(0).toUpperCase() + name.slice(1);
+    pokemonName.append(capitalFirstChar);
+}
 
+function appendPokemonSprite(sprite)
+{
+    image.src = sprite;
+}
+
+function appendPokemonTypes(typesObject)
+{
+    for (let types of typesObject)
+    {
+        console.log(types.type.name);
+
+        const typeName = types.type.name;
+        const capitalFirstChar = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+        const newLi = document.createElement("li");
+        newLi.textContent = capitalFirstChar;
+        pokemonTypes.append(newLi);
+    }
+}
 
 searchForm.addEventListener('submit', function(e) {
     e.preventDefault();
     pokemonName.textContent = "";
+    pokemonTypes.textContent = "";
     image.src = "";
     const id = parseInt(textInput.value.trim(), 10);
     getPokeApi(id);
-    textInput.value = "";    
+    textInput.value = "";
 });
-
-
